@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все записи
+{% endblock %}
+
+{% block body %}
+<h1>Все записи</h1>
+
+<div class="col-md-6">
+    {% for post in posts %}
+    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.text }}</p>
+        <button class="btn btn-outline-secondary" type="button">Читать далее</button>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
