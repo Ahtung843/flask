@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="509fc75b-9a33-4172-b9d8-9d20cfe193e2" name="Changes" comment="Сделал миграции, улучшеную регистрацию, сделал вход в систему с помощью проверки базы данных">
-      <change afterPath="$PROJECT_DIR$/static/css/login.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/posts.css" afterDir="false" />
+    <list default="true" id="509fc75b-9a33-4172-b9d8-9d20cfe193e2" name="Changes" comment="Наконец-то сделал чтобы после регистрации убирались кнопки регистрация и вход">
+      <change afterPath="$PROJECT_DIR$/templates/cabinet.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/instance/newflask.db" beforeDir="false" afterPath="$PROJECT_DIR$/instance/newflask.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sign_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sign_in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758103907255</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Наконец-то сделал чтобы после регистрации убирались кнопки регистрация и вход">
+      <option name="closed" value="true" />
+      <created>1758116255748</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1758116255748</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -122,6 +130,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1 commit" />
     <MESSAGE value="Сделал миграции, улучшеную регистрацию, сделал вход в систему с помощью проверки базы данных" />
-    <option name="LAST_COMMIT_MESSAGE" value="Сделал миграции, улучшеную регистрацию, сделал вход в систему с помощью проверки базы данных" />
+    <MESSAGE value="Наконец-то сделал чтобы после регистрации убирались кнопки регистрация и вход" />
+    <option name="LAST_COMMIT_MESSAGE" value="Наконец-то сделал чтобы после регистрации убирались кнопки регистрация и вход" />
   </component>
 </project>

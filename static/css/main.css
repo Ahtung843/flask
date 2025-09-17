@@ -1,3 +1,8 @@
 body {
-    background: Silver;
+  /* Градиент от темно-серого к почти черному */
+  background: linear-gradient(135deg, #1e1e1e, #121212);
+  color: #fff; /* Светлый текст для контраста */
+  min-height: 100vh; /* Чтобы фон занимал всю высоту экрана */
+  margin: 0;
+  font-family: Arial, sans-serif;
 }

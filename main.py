@@ -43,7 +43,7 @@ def login_required(f):
 @app.route('/index')
 @app.route('/')
 def index():
-    return render_template('index.html', logged_in=session.get('logged_in'))
+    return render_template('index.html', logged_in=session.get('logged_in'), email=session.get('email'))
 
 @app.route('/sign_in', methods=['POST', 'GET'])
 def sign_in():
@@ -66,6 +66,7 @@ def sign_in():
             user = User.query.filter_by(email=email).first()
             session['logged_in'] = True
             session['user_id'] = user.id
+            session['email'] = email
             session.permanent = True  # Сделать сессию постоянной
 
             return redirect('/index')
@@ -90,6 +91,7 @@ def sign_up():
         if user and user.check_password(password):
             session['logged_in'] = True
             session['user_id'] = user.id
+            session['email'] = email
             session.permanent = True  # Сохраняем сессию на 7 дней
             return redirect('/index')
         else:
@@ -101,5 +103,14 @@ def sign_up():
 def logout():
     session.pop('logged_in', None)
     session.pop('user_id', None)
+    session.pop('email', None)
     return redirect(url_for('index'))
+
+@app.route('/cabinet')
+def cabinet():
+    return render_template('cabinet.html')
+
+@app.route('/create')
+def create():
+    return render_template('create.html')
 

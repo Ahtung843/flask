@@ -32,6 +32,8 @@
                 </form>
             {% else %}
                 <!-- Кнопка "Выйти" отображается только если пользователь вошел в систему -->
+                <!-- Отображение имени пользователя -->
+                <li><a href="{{ url_for('cabinet') }}" class="me-3 text-white">Привет, {{ email }}!</a></li>
                 <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
                     <button type="submit" class="btn btn-outline-danger">Выйти</button>
                 </form>
