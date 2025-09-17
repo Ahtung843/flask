@@ -1,13 +1,16 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 import hashlib  # Для хэширования паролей
 from functools import wraps
 from flask_migrate import Migrate
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///newflask.db'
 db = SQLAlchemy(app)
 app.config['SECRET_KEY'] = '1h34b45h2j12ngg33j2'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)  # Время жизни сессии
+
 
 # Инициализация Flask-Migrate
 migrate = Migrate(app, db)
@@ -28,10 +31,19 @@ class Post(db.Model):
     title = db.Column(db.String(300), nullable=False)
     text = db.Column(db.Text, nullable=False)
 
+# Декоратор для проверки авторизации
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('user_id') is None:
+            return redirect(url_for('sign_up', next=request.url)) # Перенаправление на вход
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/index')
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', logged_in=session.get('logged_in'))
 
 @app.route('/sign_in', methods=['POST', 'GET'])
 def sign_in():
@@ -49,6 +61,13 @@ def sign_in():
         try:
             db.session.add(new_user)
             db.session.commit()
+
+            # Автоматически войти после регистрации
+            user = User.query.filter_by(email=email).first()
+            session['logged_in'] = True
+            session['user_id'] = user.id
+            session.permanent = True  # Сделать сессию постоянной
+
             return redirect('/index')
         except:
             return 'При регистрации произошла ошибка'
@@ -71,8 +90,16 @@ def sign_up():
         if user and user.check_password(password):
             session['logged_in'] = True
             session['user_id'] = user.id
-            return redirect('/index')  # Используйте url_for
+            session.permanent = True  # Сохраняем сессию на 7 дней
+            return redirect('/index')
         else:
             return 'Неверный логин или пароль'
     else:
         return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    session.pop('user_id', None)
+    return redirect(url_for('index'))
+

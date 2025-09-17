@@ -1,0 +1,19 @@
+.entry-container {
+  display: flex; /* Make the container a flex container */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: flex-start; /* Adjust the alignment based on your needs */
+}
+
+.entry {
+  width: 48%; /*  Set the width of each entry box  - adjust based on your desired spacing. Note: You might need to adjust to account for margin or padding. */
+  margin-bottom: 10px; /* Add spacing between rows (optional) */
+  margin-right: 2%; /* Add spacing between columns (optional).  This makes the total width (48 + 2) * 2 = 100% */
+  border: 1px solid #ccc; /* Add a border to see the boxes (optional) */
+  padding: 10px; /* Add some padding inside the box (optional) */
+  box-sizing: border-box; /*  Important: Include padding/border in the element's total width and height  */
+}
+
+/*  Remove the right margin from every second element to ensure the correct layout  */
+.entry:nth-child(2n) {
+    margin-right: 0;
+}
