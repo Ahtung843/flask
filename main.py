@@ -31,6 +31,12 @@ class Post(db.Model):
     title = db.Column(db.String(300), nullable=False)
     text = db.Column(db.Text, nullable=False)
 
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.Text, nullable=False)
+
 # Декоратор для проверки авторизации
 def login_required(f):
     @wraps(f)
@@ -75,10 +81,6 @@ def sign_in():
     else:
         return render_template('sign_in.html')
 
-@app.route('/posts')
-def posts():
-    posts = Post.query.all()
-    return render_template('posts.html', posts=posts)
 
 @app.route('/sign_up', methods=['POST','GET'])
 def sign_up():
@@ -93,7 +95,7 @@ def sign_up():
             session['user_id'] = user.id
             session['email'] = email
             session.permanent = True  # Сохраняем сессию на 7 дней
-            return redirect('/index')
+            return redirect('/cabinet')
         else:
             return 'Неверный логин или пароль'
     else:
@@ -106,11 +108,57 @@ def logout():
     session.pop('email', None)
     return redirect(url_for('index'))
 
-@app.route('/cabinet')
+@app.route('/cabinet', methods=['POST','GET'])
 def cabinet():
-    return render_template('cabinet.html')
+    '''Условие на проверку емаила в сессии(нужно для отображения емаила)'''
+    if 'email' in session:
+        print(f"Email в сессии: {session['email']}")  # <--- Добавьте эту строку для отладки
 
-@app.route('/create')
-def create():
-    return render_template('create.html')
+        if request.method == 'POST':
+            name = request.form['name']
+            price = request.form['price']
+            text = request.form['description']
+
+            try:
+                # Преобразование price в float (или другой числовой тип)
+                price = float(price)
+                new_product = Product(name=name, price=price, text=text)
+                db.session.add(new_product)
+                db.session.commit()
+                return redirect('/index')
+            except ValueError as e:
+                # Обработка ошибки преобразования price
+                return f'Ошибка: Неверный формат цены.  {e}'
+            except Exception as e:  # Перехватываем другие исключения
+                # Обработка других исключений (SQLAlchemy и т.д.)
+                db.session.rollback()  # Откат транзакции
+                return f'Вы неправильно добавили товар.  Ошибка: {e}'
+
+        return render_template('cabinet.html', email=session['email'])
+    else:
+        print("Email не найден в сессии")
+        return redirect(url_for('index'))
+
+@app.route('/posts')
+def posts():
+    product = Product.query.all()
+    return render_template('posts.html', product=product)
+
+@app.route('/product/<int:product_id>')
+def product_detail(product_id):
+    product = Product.query.get_or_404(product_id)
+    return render_template('product_detail.html', product=product)
+
+
+# важная хрень она сохраняет отображение аккаунта во всех вкладках
+@app.context_processor
+def inject_user():
+    return {
+        'logged_in': session.get('logged_in', False),
+        'email': session.get('email')
+    }
+
+
+
+
 

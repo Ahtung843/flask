@@ -5,15 +5,84 @@
 {% endblock %}
 
 {% block body %}
+<style>
+    body {
+        background-color: #121212; /* Темный фон страницы */
+        color: #e0e0e0; /* Светлый текст */
+    }
+
+    h1 {
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .col-md-6 {
+        background-color: #1e1e1e; /* Темный фон блока */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-wrap: wrap; /* Размещение элементов в несколько строк */
+        gap: 20px; /* Расстояние между карточками */
+    }
+
+    .post-card {
+        background-color: #2c2c2c; /* Темный фон карточки */
+        border: 1px solid #444; /* Темная рамка */
+        border-radius: 10px;
+        padding: 20px;
+        color: #ddd;
+        transition: background-color 0.3s ease;
+        width: calc(50% - 10px); /* Ширина карточки 50% с учетом отступов */
+        box-sizing: border-box; /* Учитываем padding в расчете ширины */
+    }
+
+    .post-card:hover {
+        background-color: #3a3a3a; /* Слегка светлее при наведении */
+    }
+
+    .post-card h2 {
+        color: #ffffff;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between; /* Равномерное распределение элементов */
+        align-items: center;
+    }
+
+    .post-card h2 .price {
+        color: #f39c12; /* Цвет для цены */
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .btn-outline-secondary {
+        color: #ccc;
+        border-color: #555;
+        background-color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-secondary:hover {
+        color: #121212;
+        background-color: #ccc;
+        border-color: #ccc;
+    }
+</style>
+
 <h1>Все записи</h1>
 
 <div class="col-md-6">
-    {% for post in posts %}
-    <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.text }}</p>
-        <button class="btn btn-outline-secondary" type="button">Читать далее</button>
+    {% for post in product %}
+    <div class="post-card">
+        <h2>
+            {{ post.name }}
+            <span class="price">{{ post.price }} ₽</span>  <!-- Отображение цены справа -->
+        </h2>
+        <p>{{ post.text[:15] }}{% if post.text|length > 15 %}...{% endif %}</p>
+        <a href="{{ url_for('product_detail', product_id=post.id) }}" class="btn btn-outline-secondary">Читать далее</a>
     </div>
     {% endfor %}
 </div>
 {% endblock %}
+
+
